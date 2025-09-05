@@ -1,3 +1,4 @@
+import math
 from viz import draw_dot
 
 class Value:
@@ -18,6 +19,12 @@ class Value:
     def __mul__(self, other):
         out = Value(self.data * other.data, (self, other), "*")
         return out
+    
+    def tanh(self):
+        x = self.data
+        t = (math.exp(2*x) - 1) / (math.exp(2*x) + 1)
+        out = Value(t, (self, ), "tanh")
+        return out
 
 a = Value(2.0, label="a")
 b = Value(-3.0, label="b")
@@ -30,35 +37,17 @@ L = d*f; L.label="L"
 L.grad = 1.0
 
 
-def lol():
-    h = 0.0001
-    
-    a = Value(2.0, label="a")
-    b = Value(-3.0, label="b")
-    c = Value(10.0, label="c")
-    e = a*b; e.label="e"
-    d = e+c; d.label="d"
-    f = Value(-2.0, label="f")
-    L = d*f; L.label="L"
-    L1 = L.data
-    
-    L.grad = 1
-    a = Value(2.0, label="a")
-    b = Value(-3.0, label="b")
-    c = Value(10.0, label="c")
-    e = a*b; e.label="e"
-    d = e+c; d.label="d"
-    f = Value(-2.0, label="f")
-    L = d*f; L.label="L"
-    L2 = L.data
-    f.grad = 4.0
-    d.grad = -2.0
-    c.grad = -2.0
-    e.grad = -2.0
-    a.grad = 6.0
-    b.grad = -4.0
-    print((L2 - L1) / h)
-    return L
+def neuron():
+    x1 = Value(2.0, label="x1")
+    x2 = Value(0.0, label="x2")
+    w1 = Value(-3.0, label="w1")
+    w2 = Value(-3.0, label="w2")
+    b = Value(6.7, label='b')
+    x1w1 = x1*w1; x1w1.label="x1*w1"
+    x2w2 = x2*w2; x2w2.label="x2*w2"
+    x1w1x2w2 = x1w1 + x2w2; x1w1x2w2.label = "x1*w1 + x2*w2"
+    n = x1w1x2w2 + b; n.label="n"
+    o = n.tanh()
+    return o
 
-# lol()
-draw_dot(lol())
+draw_dot(neuron())
