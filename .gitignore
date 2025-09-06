@@ -1,5 +1,5 @@
 __pycache__
-viz
+viz*
 *.dot
 *.gv
 *.graphviz

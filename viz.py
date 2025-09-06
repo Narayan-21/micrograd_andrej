@@ -11,7 +11,7 @@ def trace(root):
     build(root)
     return nodes, edges
 
-def draw_dot(root):
+def draw_dot(root, name):
     dot = Digraph(format="png", graph_attr={"rankdir": "LR"})
     nodes, edges = trace(root)
     for n in nodes:
@@ -23,5 +23,5 @@ def draw_dot(root):
             
     for n1, n2 in edges:
         dot.edge(str(id(n1)), str(id(n2)) + n2._op)
-    dot.render("viz")
+    dot.render(str(name))
     return dot
